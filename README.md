@@ -1,8 +1,8 @@
 # euclid
-euclidean-1-0-0.maxpat:
+euclidean-subtract-first.zip:
 Working patcher for creating Higher-Order Euclidean sets up to depth 4. Requires Bach and Cage packages to be installed in Max (these are free). This generates sets SUBTRACTION FIRST, ROTATION SECOND.
 
-euclid-rotate-first:
+euclid-rotate-first.zip:
 Same, ROTATION FIRST, SUBTRACTION SECOND.
 
 Future goals:
