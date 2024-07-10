@@ -1,8 +1,9 @@
 # euclid
-Still very much under development!
+euclidean-1-0-0.maxpat:
+Working patcher for creating Higher-Order Euclidean sets up to depth 4. Requires Bach and Cage packages to be installed in Max (these are free). This generates sets SUBTRACTION FIRST, ROTATION SECOND.
 
-euclidean-02s.maxpat:
-Well-tested, working patcher for creating Higher-Order Euclidean sets up to depth 4. Requires Bach and Cage packages to be installed in Max (these are free).
+euclid-rotate-first:
+Same, ROTATION FIRST, SUBTRACTION SECOND.
 
 Future goals:
 Upload set of C++ files to generate and organize large aggregates of sets using n-ary trees.
