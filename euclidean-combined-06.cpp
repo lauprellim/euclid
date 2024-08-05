@@ -182,7 +182,7 @@ class hyperEuclid {
     }
 
     // member functions
-    void makeHyperEuclidRotateFirst() {
+    void makeOneHyperEuclidRotateFirst() {
         // This is the rotate first method.
         Euclid euclidInstance[depth];
         hyperEuclid hyperEuclidSetInstance[depth];
@@ -219,7 +219,7 @@ class hyperEuclid {
         }
     }
 
-    void makeHyperEuclidSubtractFirst() {
+    void makeOneHyperEuclidSubtractFirst() {
         // Subtract first method
         Euclid euclidInstance[depth];
         hyperEuclid hyperEuclidSetInstance[depth];
@@ -369,8 +369,8 @@ int main() {
     cout<<"=================================="<<endl;
     */
 
-    if(method=='r') starterHESet.makeHyperEuclidRotateFirst();
-    else starterHESet.makeHyperEuclidSubtractFirst();
+    if(method=='r') starterHESet.makeOneHyperEuclidRotateFirst();
+    else starterHESet.makeOneHyperEuclidSubtractFirst();
 
     cout<<"Would you like to find another set? (y/n): ";
     char cont;
