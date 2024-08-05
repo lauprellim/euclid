@@ -106,6 +106,11 @@ int main() {
     cout<<"What is your desired ending span (kn)? ";
     cin>>kn;
 
+    if( n-kn < depth ) {
+        cout<<"Your desired depth doesn't permit your n and kn values. Please try again..."<<endl;
+        return 0;
+    }
+
     Slate mySlate;
     mySlate.setN(n);
     mySlate.setKn(kn);
