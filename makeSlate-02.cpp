@@ -78,6 +78,7 @@ class Slate {
 
     // member function printSlate
     void printSlate() {
+        cout<<"Your slate is:"<<endl;
         for(int i=0; i<NKSlate.size(); i++) {
             cout<<"Row "<<i<<":\t";
             for(int j=0; j<NKSlate[i].size(); j++) {
