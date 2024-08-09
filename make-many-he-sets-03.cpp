@@ -8,6 +8,8 @@ using namespace std;
 static const string boldOn = "\e[1m";
 static const string boldOff = "\e[0m";
 
+static long int globalCounter = 0;
+
 // overloads "-" operator
 // this allows you to take all of the elements at the INDECIES of vector rhs OUT of the vector lhs.
 vector<int> operator-(const vector<int> lhs, const vector<int> rhs) {
@@ -355,9 +357,11 @@ class hyperEuclid {
     }
 
     void printQuick(int indent) {
+        // NOT CORRECT -- CLOSE
+        globalCounter++;
         string tabs;
         for(int i=0; i<indent; i++) tabs.append("\t");
-        cout << tabs << "HE ( " << NK[0];   
+        cout << globalCounter << tabs << "HE ( " << NK[0];   
         for(int j=1; j<depth+1; j++) { cout<<" "<<NK[j]<<"^"<<R[j]; }
         cout<<" ) = [ ";
         for (const int& l : hyperEuclidSet) { cout << l << " "; }
@@ -440,6 +444,7 @@ class Slate {
 
     // member function printSlate
     void printSlate() {
+        cout<<endl<<"-----------------"<<endl;
         cout<<"Your slate is:"<<endl;
         for(int i=0; i<NKSlate.size(); i++) {
             cout<<"Row "<<i<<":\t";
@@ -448,6 +453,7 @@ class Slate {
             }
             cout<<endl;
         }
+        cout<<"----------------"<<endl;
     }
 };
 
@@ -507,9 +513,15 @@ class Stream {
 int main() {
 
     int depth, n, kn;
-    static long int globalCounter = 0;
+    char method;
 
     cout<<boldOn<<"MAKE MANY HYPEREUCLIDEAN SETS"<<boldOff<<endl;
+ 
+    cout<<"Rotate first or subtract first method (r/s/q)? ";
+    cin>>method;
+    if(method =='q') { cout<<"Goodbye!"<<endl; return 0; }
+    if(method !='r' && method !='s') { cout<<"Please enter r (rotate first) or s (subtract first)."<<endl;; main(); }
+ 
     cout<<"What is your desired depth? (1-5): ";
     cin>>depth;
 
@@ -518,18 +530,17 @@ int main() {
 
     cout<<"What is your desired ending span (kn)? ";
     cin>>kn;
-
-    cout<<"Rotate first or subtract first method (r/s/q)? ";
-    char method;
-    cin>>method;
-    if(method =='q') { cout<<"Goodbye!"<<endl; return 0; }
-    if(method !='r' && method !='s') { cout<<"Please enter r (rotate first) or s (subtract first)."<<endl;; main(); }
-
-
+\
     if( n-kn < depth ) {
         cout<<"Your depth doesn't permit your n and kn values. Please try again..."<<endl;
         return 0;
     }
+
+    // print out user-defined data
+    cout<<endl<<"-----------------"<<endl;
+    cout<<"User Parameters:"<<endl;
+    cout<<"Method = "<<method<<" | Depth = "<<depth<<" | Starting span (n) = "<<n<<" | Ending span (kn): "<<kn<<endl;
+    cout<<"-----------------"<<endl;
 
     // First make the 2D vector which is the Slate
     // A slate contans all the n, k1, ... , kn values
@@ -555,9 +566,6 @@ int main() {
         };
         myStream.makeSetREC ( a, rList );
 
-        globalCounter = globalCounter + myStream.counter;
     }
-    cout<<endl<<"Total sets = "<<globalCounter<<endl;
-
     return 0;
 }
