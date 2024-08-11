@@ -211,6 +211,7 @@ class hyperEuclid {
             if(j == 0) {
                 // Increment globalCounter only ONCE per generated group of HE sets: 
                 globalCounter++;
+                cout<<globalCounter<<": ";
                 // make first Euclidean set
                 euclidInstance[0].setN(NK[0]);
                 euclidInstance[0].setK(NK[1]);
@@ -287,6 +288,7 @@ class hyperEuclid {
             if(j == 0) {
                 // increment globalCounter only ONCE per generated group of HE sets: 
                 globalCounter++;
+                cout<<globalCounter<<": ";
                 // make the first Euclidean set
                 euclidInstance[0].setN(NK[0]);
                 euclidInstance[0].setK(NK[1]);
@@ -363,7 +365,7 @@ class hyperEuclid {
     void printQuick(int indent) {
         string tabs;
         for(int i=0; i<indent; i++) tabs.append("\t");
-        cout << globalCounter << tabs << "HE ( " << NK[0];   
+        cout << tabs << "HE ( " << NK[0];   
         for(int j=1; j<depth+1; j++) { cout<<" "<<NK[j]<<"^"<<R[j]; }
         cout<<" ) = [ ";
         for (const int& l : hyperEuclidSet) { cout << l << " "; }
