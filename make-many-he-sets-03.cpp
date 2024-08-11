@@ -209,6 +209,8 @@ class hyperEuclid {
         for(int j=0; j<depth; j++) {
             // in the first iteration we just want to make a basic Euclid set, no hyperSet.
             if(j == 0) {
+                // Increment globalCounter only ONCE per generated group of HE sets: 
+                globalCounter++;
                 // make first Euclidean set
                 euclidInstance[0].setN(NK[0]);
                 euclidInstance[0].setK(NK[1]);
@@ -283,6 +285,8 @@ class hyperEuclid {
         hyperEuclid hyperEuclidSetInstance[depth];
         for(int j=0; j<depth; j++) {
             if(j == 0) {
+                // increment globalCounter only ONCE per generated group of HE sets: 
+                globalCounter++;
                 // make the first Euclidean set
                 euclidInstance[0].setN(NK[0]);
                 euclidInstance[0].setK(NK[1]);
@@ -357,8 +361,6 @@ class hyperEuclid {
     }
 
     void printQuick(int indent) {
-        // NOT CORRECT -- CLOSE
-        globalCounter++;
         string tabs;
         for(int i=0; i<indent; i++) tabs.append("\t");
         cout << globalCounter << tabs << "HE ( " << NK[0];   
@@ -382,7 +384,7 @@ class Slate {
         int a = 1;
         int iter = 0;
         int counter = 1;
-        int depth = 2;
+        int depth;
 
     public:
         int n, kn;
@@ -460,10 +462,10 @@ class Slate {
 // Class Stream calculates all the r values (rotation) and iterates
 class Stream {
     public:
-        vector<int> HESet;
+        vector<int> rList, HESet;
         int depth = HESet.size();
         int a, counter;
-        vector<int> rList;
+
         // method r = "rotation first"; method s = "subtraction first"
         char method;
     
@@ -473,8 +475,9 @@ class Stream {
         this->counter = counter;
     }
 
-    void setDepth(int depth) { this->depth = depth;}
-
+    // void setDepth(int depth) { this->depth = depth;}
+    // This is the NON-RECURSIVE version of this function...it only works to depth 2.
+    // This function is never called, it's vestigal...NR = "non-recursive"
     void makeSetNR() {
         for(int i=0; i<HESet[0]; i++) {
             for(int j=0; j<HESet[0]; j++) {
@@ -494,13 +497,13 @@ class Stream {
                 thisHESet.setNK(HESet, depth+1);
                 thisHESet.setR(rList, depth);
 
+                // this comparison should probably go somewhere else...
                 // comparison, r- or s-first...
                 if(method == 'r') thisHESet.makeManyHERF();
                 else thisHESet.makeManyHESF();
 
                 cout<<endl;
                 // this counts only the unique sets
-                counter++;
             }
             rList = makeSetREC( a+1, rList );
         }
@@ -515,7 +518,7 @@ int main() {
     int depth, n, kn;
     char method;
 
-    cout<<boldOn<<"MAKE MANY HYPEREUCLIDEAN SETS"<<boldOff<<endl;
+    cout<<"MAKE MANY HYPEREUCLIDEAN SETS"<<endl;
  
     cout<<"Rotate first or subtract first method (r/s/q)? ";
     cin>>method;
@@ -554,8 +557,9 @@ int main() {
     // for each vector in the Slate, make HEsets.
     for(int i=0; i<mySlate.NKSlate.size(); i++) {
         Stream myStream;
+        // there are no private vars in Stream...why??
         myStream.HESet = mySlate.NKSlate[i];
-        myStream.setDepth(depth);
+        myStream.depth = depth;
         myStream.method = method;
 
         int a = 1;
@@ -564,6 +568,9 @@ int main() {
         for(int i=0; i<= myStream.depth; i++ ) {
             rList.push_back(0);
         };
+
+        // should probably call a different makeSetREC function
+        // depending on whether method = r or method = s
         myStream.makeSetREC ( a, rList );
 
     }
