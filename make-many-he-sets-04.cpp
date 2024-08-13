@@ -40,8 +40,7 @@ class Euclid {
     // write a copy constructor??
     // Euclid ( Euclid &set ) {}
    
-    // mutators -- When I create multiple instances of the class
-    // they contain the DEFAULT values in the constructor above!
+    // mutators
     void setN(int n) { this->n = n; }
     void setK(int k) { this->k = k; }
     void setR(int r) { this->r = r; }
@@ -330,8 +329,7 @@ class hyperEuclid {
     }
 
     // member functions
-    // these functions OVERRIDE the printSet(), findIOI() and printIOI() function in Euclid class.
-    void printSet() {cout<<"Depth = "<<depth<<"globalDepth = "<<globalDepth<<endl;
+    void printSet() {
         string tabs;
         for(int i=0; i<depth-1; i++) tabs.append("\t");
         cout << tabs << "Hyper Euclidean set ( " << boldOn << NK[0];   
