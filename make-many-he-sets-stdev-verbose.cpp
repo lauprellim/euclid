@@ -358,8 +358,7 @@ class hyperEuclid {
         cout << "> " << endl;
     }
 
-    // this is not producing the result I want. Maybe pairwise variability index?
-    // or even standard deviation?
+    // This prints the standard deviation of whatever set calls it.
     void printIOIstat(int indent) {
         string tabs;
         for(int i=0; i<indent; i++) tabs.append("\t");

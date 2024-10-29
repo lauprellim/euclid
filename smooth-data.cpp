@@ -1,5 +1,10 @@
 /*
-    This works pretty well. Rename and promote!
+    This works!
+
+    The threshold is the number of elements to average in each block.
+    meanVector is an array to hold those elements
+    fileName is the name of a text value that holds the standard deviation values in the form
+    --> index, content
 */
 
 #include <iostream>
@@ -8,16 +13,13 @@
 #include <string>
 #include <numeric>
 
-// the threshold is the number of elements to average
-// meanVector is an array to hold those elements
-// fileName is the name of a text value that holds the standard deviation values in the form
-// index, content
-
-// don't change counter!
+// Set variables here!
 static double threshold = 1000; 
+std::string fileName = "example.txt";
+
+// Don't change these variables please.
 std::vector<double> meanVector;
 static int counter = 0;
-std::string fileName = "example.txt";
 
 // each time a line is read in, this function should be executed.
 // averages batches of numbers, as well as the last (probably) partial batch
@@ -26,7 +28,8 @@ void processData(int index, double content) {
     // std::cout << index << " " << counter << " " << content << '\n';
     meanVector.push_back(content);
     counter++;
-    // index is -1 when EOF is reached.
+    // index is -1 when EOF is reached. This will average blocks of size threshold,
+    // and also average the last (usually) partial block as well.
     if( counter % int(threshold) == 0 || index == -1 ) {
         // find mean of values in the vector
         double sumElements = std::accumulate(meanVector.begin(), meanVector.end(), 0.0);
