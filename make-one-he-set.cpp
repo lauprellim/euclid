@@ -1,7 +1,7 @@
 /*
-=========================
-MAKE ONE HYPEREUCLID SET
-=========================
+======================================
+Version 06 -- MAKE ONE HYPEREUCLID SET
+======================================
 
 Maybe add Copy Constructor(s)...
 */
@@ -63,7 +63,8 @@ class Euclid {
     // write a copy constructor??
     // Euclid ( Euclid &set ) {}
    
-    // mutators
+    // mutators -- When I create multiple instances of the class
+    // they contain the DEFAULT values in the constructor above!
     void setN(int n) { this->n = n; }
     void setK(int k) { this->k = k; }
     void setR(int r) { this->r = r; }
@@ -134,23 +135,32 @@ class Euclid {
     ~Euclid() { }
 };
 
-/* 
-This class is expanded in "make-many-he-sets.cpp", but none of the basic
-code here has changed. So this program should be able to use the larger
-hyperEuclid class. Or it might be possible in make-many-he-sets.cpp to
-inherit this class.
-*/
-
+// class hyperEuclid:public Euclid {
 class hyperEuclid {
     private:
+        // convert these into vector<int>s...
         vector<int> NK, R;
         int depth;
     public:
         vector<int> hyperEuclidSet {}, hyperIOI {}, rotatedHyperEuclid {};// the series itself
 
     // setters
-    void setNK( vector<int> new_NK, int depth ) { this->NK = new_NK; }
-    void setR( vector<int> new_R, int depth ) { this->R = new_R; }
+    void setNK( vector<int> new_NK, int depth ) {
+        // allocate size of NK[] array first
+        // this seems to be causing the malloc_error_break...
+        // int *NK = NULL;
+        // int NK = new int[depth];
+        // void setN(int n) { this->n = n; }
+        this->NK = new_NK;
+    }
+
+    void setR( vector<int> new_R, int depth ) {
+        // int *R = NULL;
+        // int R = new int[depth];
+        // for(int i=0; i<depth+1; i++ ) { this->R[i] = new_R[i]; }
+        this->R = new_R;
+    }
+
     void setDepth( int depth ) { this->depth = depth; }
 
     // getters
@@ -261,6 +271,7 @@ class hyperEuclid {
     }
 
     // member functions
+    // these functions OVERRIDE the printSet(), findIOI() and printIOI() function in Euclid class.
     void printSet() {
         string tabs;
         for(int i=0; i<depth-1; i++) tabs.append("\t");
@@ -351,7 +362,7 @@ int main() {
     starterHESet.setDepth(depth);
 
     /*
-    // check for array values
+    // check array values
     cout<<"=================================="<<endl;
     basicHESet.printNK();
     basicHESet.printR();
