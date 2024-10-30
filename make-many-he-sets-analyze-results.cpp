@@ -1,18 +1,17 @@
 /*
-    prints only the index number and the standard deviation
-    separated by a comma. very economical and compact way
-    of generating lots of data!
+    This program will find many HE sets (as specified by the user),
+    and output only the unique sets generated and the quantity of each.
 */
-
 
 #include <iostream>
 #include <vector>
 #include <algorithm>
 #include <string>
 #include <numeric>
-#include <chrono>
 #include <cmath>
+#include <set>
 using namespace std;
+#include <chrono>
 using namespace std::chrono;
 
 // boldface
@@ -21,6 +20,10 @@ static const string boldOff = "\e[0m";
 
 static long int globalCounter = 0;
 static int globalDepth;
+
+// This is for counting unique sets. It's going to contain ALL the sets
+// that the algorithm produces!
+static vector<vector<int>> unionVector;
 
 // overloads "-" operator
 // this allows you to take all of the elements at the INDECIES of vector rhs OUT of the vector lhs.
@@ -234,7 +237,8 @@ class hyperEuclid {
                 hyperEuclidSetInstance[j].setDepth(j+1);
                 hyperEuclidSetInstance[j].hyperIOI = hyperEuclidSetInstance[j].findIOI();
                 // hyperEuclidSetInstance[j].printQuick(j);
-                hyperEuclidSetInstance[j].printIOIstat();       // new 10/2024
+                // for this program
+                hyperEuclidSetInstance[j].makeUnionVector();
             }
         }
     }
@@ -313,7 +317,8 @@ class hyperEuclid {
                 hyperEuclidSetInstance[j].rotateHyperEuclid();
                 hyperEuclidSetInstance[j].hyperIOI = hyperEuclidSetInstance[j].findIOI();
                 // hyperEuclidSetInstance[j].printQuick(j);
-                hyperEuclidSetInstance[j].printIOIstat();       // new 10/2024
+                // for this program
+                hyperEuclidSetInstance[j].makeUnionVector();
             }
         }
     }
@@ -359,7 +364,7 @@ class hyperEuclid {
     }
 
     // This prints the standard deviation of whatever set calls it.
-    void printIOIstat() {
+    double printIOIstat() {
         // string tabs;
         // for(int i=0; i<indent; i++) tabs.append("\t");
 
@@ -377,8 +382,14 @@ class hyperEuclid {
             double stdev = sqrt(sq_sum / hyperIOI.size());
 
             // double avg = sum/size;
-            cout << stdev;
+            return stdev;
         }
+    }
+
+    // This simply creates the big unionVector that we will call in main()
+    // The work will be done in produceCount()
+    void makeUnionVector() {
+        unionVector.push_back(hyperEuclidSet);
     }
 
     void printQuick(int indent) {
@@ -525,7 +536,9 @@ class Stream {
                 if(method == 'r') thisHESet.makeManyHERF();
                 else thisHESet.makeManyHESF();
 
-                cout<<endl;
+                // in this program, bizzarly this endl added a ton of empty
+                // lines between printing out the Slate and the begin of data
+                // cout<<endl;
                 // this counts only the unique sets
             }
             rList = makeSetREC( a+1, rList );
@@ -535,6 +548,24 @@ class Stream {
 };
 
 
+void produceCount() {
+    // use a set to store unique vectors
+    set<vector<int>> uniqueVector;
+
+    // iterate through the 2d vector
+    for (const auto &v : unionVector ) uniqueVector.insert(v);
+
+    // sort(uniqueVector.begin(), uniqueVector.end());
+    // print the unique vectors
+    for (const auto &v : uniqueVector ) {
+        globalCounter++;
+        // look up this vector in the union vector, to obtain the number of times it occurs
+        int myCount = count(unionVector.begin(), unionVector.end(), v );
+        cout << globalCounter << ", [ ";
+        for (const auto &elem : v) cout << elem << " ";
+        cout << "], " << myCount << endl;
+    }
+}
 
 int main() {
 
@@ -546,7 +577,7 @@ int main() {
     cout<<"Rotate first or subtract first method (r/s/q)? ";
     cin>>method;
     if(method =='q') { cout<<"Goodbye!"<<endl; return 0; }
-    if(method !='r' && method !='s') { cout<<"Please enter r (rotate first) or s (subtract first)."<<endl;; main(); }
+    if(method !='r' && method !='s') { cout<<"Please enter r (rotate first) or s (subtract first)."<<endl; main(); }
  
     cout<<"What is your desired depth? (1-5): ";
     cin>>depth;
@@ -602,10 +633,17 @@ int main() {
         myStream.makeSetREC ( a, rList );
     }
 
+
+    // Now, unionVector should contain all of the sets that the algorithm produces.
+    // The task is now to sort this massive vector, and count the number of occurrences
+    // of each unique element. "Each unique element" means count the number of times
+    // each set occurs.
+    produceCount();
+
     // stop timer
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<microseconds>(stop-start) * 0.000001;
-    cout<<"Produced "<<globalCounter<<" HE sets in "<<duration.count()<<" seconds."<<endl;
+    cout<<"Found "<<globalCounter<<" unique HE sets in "<<duration.count()<<" seconds."<<endl;
 
     return 0;
 }
