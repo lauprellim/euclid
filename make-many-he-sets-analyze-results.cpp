@@ -389,7 +389,7 @@ class hyperEuclid {
     // This simply creates the big unionVector that we will call in main()
     // The work will be done in produceCount()
     void makeUnionVector() {
-        unionVector.push_back(hyperEuclidSet);
+        if(depth == globalDepth) unionVector.push_back(hyperEuclidSet);
     }
 
     void printQuick(int indent) {
