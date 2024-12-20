@@ -1,6 +1,6 @@
 # euclid
 
-Higher-Order Euclidean sets are synonoums with Hypereuclidean sets. They are a method of using the maximally-even algorithm recursively to generate many interesting sets for music.
+Higher-Order Euclidean sets are synonymous with Hypereuclidean sets. They are a method of using the maximally-even algorithm recursively to generate many interesting sets for music.
 
 ZIP files: Max/MSP patches that implement rotate-first and subtract-first methods for experimenting with higher-order Euclidean sets. Be sure to install the Bach and Cage libraries, which are available for free in the package manager. The patches can save results in MIDI or XML format for easy exporting to DAWs or musical engraving software.
 
